@@ -24,8 +24,11 @@ METHODS:
     - generate_career_roadmap()     → Step-by-step career path
 """
 
-# pyrefly: ignore [missing-import]
-from mistralai import Mistral
+try:
+    from mistralai import Mistral
+except ImportError:
+    from mistralai.client import Mistral
+
 
 
 class AIService:
