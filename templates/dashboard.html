@@ -1,0 +1,187 @@
+<!--
+templates/dashboard.html — Dynamic Dashboard
+==============================================
+WHY THIS FILE EXISTS:
+    The user's personal command center. After login, this is
+    their home page showing:
+    - Usage statistics (cards with numbers)
+    - Feature usage chart (Chart.js)
+    - Recent activity feed
+    - Quick action buttons to each feature
+
+    Data is loaded via JavaScript (AJAX calls to /api/dashboard/stats).
+    This makes the dashboard DYNAMIC — it updates without page reload.
+-->
+{% extends "base.html" %}
+{% block title %}Dashboard — AI Career Connect{% endblock %}
+
+{% block extra_css %}
+<style>
+    .stat-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        line-height: 1;
+    }
+    .quick-action {
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+    .quick-action:hover {
+        transform: translateY(-3px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5 mt-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold mb-1">
+                Welcome back, <span class="gradient-text">{{ current_user.username }}</span>! 👋
+            </h1>
+            <p class="text-muted">Here's your career journey overview</p>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-6 col-lg-3">
+            <div class="glass-card p-4 stat-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-1">Total Chats</p>
+                        <p class="stat-number text-primary" id="statChats">0</p>
+                    </div>
+                    <div class="feature-icon bg-primary bg-opacity-10 text-primary">
+                        <i class="bi bi-chat-dots-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="glass-card p-4 stat-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-1">Resumes Analyzed</p>
+                        <p class="stat-number text-success" id="statResumes">0</p>
+                    </div>
+                    <div class="feature-icon bg-success bg-opacity-10 text-success">
+                        <i class="bi bi-file-earmark-check-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="glass-card p-4 stat-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-1">Interviews Prepped</p>
+                        <p class="stat-number text-warning" id="statInterviews">0</p>
+                    </div>
+                    <div class="feature-icon bg-warning bg-opacity-10 text-warning">
+                        <i class="bi bi-question-circle-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="glass-card p-4 stat-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-1">Roadmaps Created</p>
+                        <p class="stat-number text-danger" id="statRoadmaps">0</p>
+                    </div>
+                    <div class="feature-icon bg-danger bg-opacity-10 text-danger">
+                        <i class="bi bi-map-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Feature Usage Chart -->
+        <div class="col-lg-7">
+            <div class="glass-card p-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-bar-chart-fill me-2 text-primary"></i>Feature Usage</h5>
+                <canvas id="featureChart" height="250"></canvas>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="col-lg-5">
+            <div class="glass-card p-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-lightning-fill me-2 text-warning"></i>Quick Actions</h5>
+                <div class="d-grid gap-3">
+                    <a href="{{ url_for('chat') }}" class="quick-action glass-card p-3 d-flex align-items-center">
+                        <div class="feature-icon bg-primary bg-opacity-10 text-primary me-3" style="width:40px;height:40px;font-size:1rem">
+                            <i class="bi bi-chat-dots-fill"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">Start AI Chat</h6>
+                            <small class="text-muted">Get career advice</small>
+                        </div>
+                        <i class="bi bi-chevron-right ms-auto text-muted"></i>
+                    </a>
+                    <a href="{{ url_for('resume') }}" class="quick-action glass-card p-3 d-flex align-items-center">
+                        <div class="feature-icon bg-success bg-opacity-10 text-success me-3" style="width:40px;height:40px;font-size:1rem">
+                            <i class="bi bi-file-earmark-person-fill"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">Analyze Resume</h6>
+                            <small class="text-muted">Get AI feedback</small>
+                        </div>
+                        <i class="bi bi-chevron-right ms-auto text-muted"></i>
+                    </a>
+                    <a href="{{ url_for('interview') }}" class="quick-action glass-card p-3 d-flex align-items-center">
+                        <div class="feature-icon bg-warning bg-opacity-10 text-warning me-3" style="width:40px;height:40px;font-size:1rem">
+                            <i class="bi bi-question-circle-fill"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">Practice Interviews</h6>
+                            <small class="text-muted">Generate questions</small>
+                        </div>
+                        <i class="bi bi-chevron-right ms-auto text-muted"></i>
+                    </a>
+                    <a href="{{ url_for('roadmap') }}" class="quick-action glass-card p-3 d-flex align-items-center">
+                        <div class="feature-icon bg-danger bg-opacity-10 text-danger me-3" style="width:40px;height:40px;font-size:1rem">
+                            <i class="bi bi-map-fill"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">Build Roadmap</h6>
+                            <small class="text-muted">Plan your career</small>
+                        </div>
+                        <i class="bi bi-chevron-right ms-auto text-muted"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="glass-card p-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-clock-history me-2 text-info"></i>Recent Activity</h5>
+                <div id="recentActivity">
+                    <p class="text-muted text-center py-3">Loading activity...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Chart.js for dashboard visualizations -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

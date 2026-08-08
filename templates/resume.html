@@ -1,0 +1,73 @@
+<!--
+templates/resume.html — Resume Analyzer Page
+==============================================
+WHY THIS FILE EXISTS:
+    Users paste their resume text here and get AI-powered
+    analysis including: score, strengths, weaknesses, and
+    ATS compatibility tips.
+-->
+{% extends "base.html" %}
+{% block title %}Resume Analyzer — AI Career Connect{% endblock %}
+
+{% block content %}
+<div class="container py-5 mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="text-center mb-4">
+                <div class="feature-icon bg-warning bg-opacity-10 text-warning mx-auto mb-3" style="width:60px;height:60px;font-size:1.5rem">
+                    <i class="bi bi-file-earmark-person-fill"></i>
+                </div>
+                <h1 class="fw-bold">Resume Analyzer</h1>
+                <p class="text-muted lead">Paste your resume and get AI-powered feedback with actionable improvements</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Input Panel -->
+                <div class="col-lg-6">
+                    <div class="glass-card p-4 h-100">
+                        <h5 class="fw-bold mb-3">
+                            <i class="bi bi-clipboard-plus me-2 text-primary"></i>Paste Your Resume
+                        </h5>
+                        <textarea class="form-control bg-dark border-secondary mb-3" id="resumeInput"
+                                  rows="15" placeholder="Paste your resume text here...&#10;&#10;Example:&#10;JOHN DOE&#10;Software Developer&#10;john@email.com | (555) 123-4567&#10;&#10;SUMMARY&#10;Experienced developer with 3+ years..."></textarea>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary flex-grow-1" id="analyzeBtn" onclick="analyzeResume()">
+                                <i class="bi bi-magic me-2"></i>Analyze Resume
+                            </button>
+                            <button class="btn btn-outline-secondary" id="resumeMicBtn" onclick="toggleSpeechRecognition('resumeInput')"
+                                    title="Dictate your resume">
+                                <i class="bi bi-mic-fill"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Panel -->
+                <div class="col-lg-6">
+                    <div class="glass-card p-4 h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold mb-0">
+                                <i class="bi bi-clipboard-check me-2 text-success"></i>Analysis Results
+                            </h5>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="speakText(document.getElementById('analysisResult').innerText)"
+                                    title="Read aloud" id="resumeSpeakBtn">
+                                <i class="bi bi-volume-up-fill"></i>
+                            </button>
+                        </div>
+                        <div id="analysisResult" class="analysis-result">
+                            <div class="text-center py-5 text-muted">
+                                <i class="bi bi-arrow-left-circle" style="font-size:2rem"></i>
+                                <p class="mt-2">Paste your resume on the left and click "Analyze" to get started</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/resume.js') }}"></script>
+{% endblock %}

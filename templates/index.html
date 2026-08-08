@@ -1,0 +1,175 @@
+<!--
+templates/index.html — Landing Page
+=====================================
+WHY THIS FILE EXISTS:
+    The first impression page. This is what visitors see at '/'.
+    Its job is to SELL the app — explain what it does and
+    convince users to register.
+
+    Contains: Hero section, feature cards, call-to-action.
+-->
+{% extends "base.html" %}
+{% block title %}AI Career Connect — Your AI-Powered Career Assistant{% endblock %}
+
+{% block content %}
+<!-- ─── Hero Section ───────────────────────────────────────────── -->
+<section class="hero-section">
+    <div class="hero-bg-animation"></div>
+    <div class="container position-relative">
+        <div class="row align-items-center min-vh-100 pt-5">
+            <div class="col-lg-6">
+                <span class="badge bg-primary bg-opacity-25 text-primary px-3 py-2 mb-3 rounded-pill">
+                    <i class="bi bi-stars me-1"></i> AI-Powered Career Guidance
+                </span>
+                <h1 class="display-3 fw-800 mb-4">
+                    Your Career,
+                    <span class="gradient-text">Supercharged</span>
+                    by AI
+                </h1>
+                <p class="lead text-muted mb-4">
+                    Chat with AI, analyze your resume, practice for interviews,
+                    and build your career roadmap — all in one powerful platform.
+                </p>
+                <div class="d-flex gap-3">
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg px-4">
+                            <i class="bi bi-grid-1x2-fill me-2"></i>Go to Dashboard
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg px-4">
+                            <i class="bi bi-rocket-takeoff me-2"></i>Get Started Free
+                        </a>
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg px-4">
+                            Login
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-6 text-center d-none d-lg-block">
+                <div class="hero-illustration">
+                    <div class="floating-card card-1">
+                        <i class="bi bi-chat-dots-fill"></i>
+                        <span>AI Chat</span>
+                    </div>
+                    <div class="floating-card card-2">
+                        <i class="bi bi-file-earmark-check-fill"></i>
+                        <span>Resume</span>
+                    </div>
+                    <div class="floating-card card-3">
+                        <i class="bi bi-mic-fill"></i>
+                        <span>Voice</span>
+                    </div>
+                    <div class="floating-card card-4">
+                        <i class="bi bi-map-fill"></i>
+                        <span>Roadmap</span>
+                    </div>
+                    <div class="hero-globe"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── Features Section ───────────────────────────────────────── -->
+<section class="py-5" id="features">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">Everything You Need for Your Career</h2>
+            <p class="text-muted lead">Six powerful AI tools, one unified platform.</p>
+        </div>
+        <div class="row g-4">
+            <!-- Feature 1: AI Chat -->
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card glass-card p-4 h-100">
+                    <div class="feature-icon bg-primary bg-opacity-10 text-primary">
+                        <i class="bi bi-chat-dots-fill"></i>
+                    </div>
+                    <h4 class="mt-3">AI Career Chat</h4>
+                    <p class="text-muted">
+                        Get instant career advice, guidance on job searching,
+                        salary negotiations, and professional development.
+                    </p>
+                </div>
+            </div>
+            <!-- Feature 2: Voice -->
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card glass-card p-4 h-100">
+                    <div class="feature-icon bg-success bg-opacity-10 text-success">
+                        <i class="bi bi-mic-fill"></i>
+                    </div>
+                    <h4 class="mt-3">Voice Interaction</h4>
+                    <p class="text-muted">
+                        Speak your questions and hear AI responses.
+                        Full speech-to-text and text-to-speech support.
+                    </p>
+                </div>
+            </div>
+            <!-- Feature 3: Resume -->
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card glass-card p-4 h-100">
+                    <div class="feature-icon bg-warning bg-opacity-10 text-warning">
+                        <i class="bi bi-file-earmark-person-fill"></i>
+                    </div>
+                    <h4 class="mt-3">Resume Analyzer</h4>
+                    <p class="text-muted">
+                        Paste your resume and get detailed AI feedback,
+                        scoring, and ATS compatibility suggestions.
+                    </p>
+                </div>
+            </div>
+            <!-- Feature 4: Interview -->
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card glass-card p-4 h-100">
+                    <div class="feature-icon bg-info bg-opacity-10 text-info">
+                        <i class="bi bi-question-circle-fill"></i>
+                    </div>
+                    <h4 class="mt-3">Interview Prep</h4>
+                    <p class="text-muted">
+                        Generate role-specific interview questions with
+                        tips on how to answer them effectively.
+                    </p>
+                </div>
+            </div>
+            <!-- Feature 5: Roadmap -->
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card glass-card p-4 h-100">
+                    <div class="feature-icon bg-danger bg-opacity-10 text-danger">
+                        <i class="bi bi-map-fill"></i>
+                    </div>
+                    <h4 class="mt-3">Career Roadmap</h4>
+                    <p class="text-muted">
+                        Get a personalized step-by-step career path with
+                        skills, certifications, and timeline.
+                    </p>
+                </div>
+            </div>
+            <!-- Feature 6: Dashboard -->
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card glass-card p-4 h-100">
+                    <div class="feature-icon bg-secondary bg-opacity-10 text-secondary">
+                        <i class="bi bi-speedometer2"></i>
+                    </div>
+                    <h4 class="mt-3">Dynamic Dashboard</h4>
+                    <p class="text-muted">
+                        Track your career journey with visual stats,
+                        recent activity, and usage analytics.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── CTA Section ────────────────────────────────────────────── -->
+<section class="cta-section py-5">
+    <div class="container text-center">
+        <h2 class="display-6 fw-bold mb-3">Ready to Transform Your Career?</h2>
+        <p class="lead text-muted mb-4">Join thousands of professionals using AI to accelerate their career growth.</p>
+        {% if not current_user.is_authenticated %}
+            <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg px-5">
+                <i class="bi bi-rocket-takeoff me-2"></i>Start Now — It's Free
+            </a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

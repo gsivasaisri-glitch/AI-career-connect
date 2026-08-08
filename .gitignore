@@ -1,0 +1,28 @@
+# ── Python ──────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+dist/
+build/
+venv/
+env/
+.env
+
+
+# ── Database ────────────────────────────────────────────────
+database/*.db
+instance/*.db
+*.db
+
+
+# ── Uploads & Cache ─────────────────────────────────────────
+uploads/
+static/audio_cache/
+
+# ── IDE / OS ────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db

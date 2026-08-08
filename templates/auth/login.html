@@ -1,0 +1,81 @@
+<!--
+templates/auth/login.html — Login Page
+========================================
+WHY IN auth/ SUBFOLDER?
+    Authentication templates (login, register) are grouped in
+    auth/ because they serve a DIFFERENT purpose than feature
+    pages. This makes the templates folder organized and scannable.
+-->
+{% extends "base.html" %}
+{% block title %}Login — AI Career Connect{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center align-items-center min-vh-100 pt-5">
+        <div class="col-md-5">
+            <div class="glass-card p-5 auth-card">
+                <div class="text-center mb-4">
+                    <div class="auth-icon mb-3">
+                        <i class="bi bi-person-circle"></i>
+                    </div>
+                    <h2 class="fw-bold">Welcome Back</h2>
+                    <p class="text-muted">Sign in to continue your career journey</p>
+                </div>
+
+                <form method="POST" action="{{ url_for('login') }}" id="loginForm">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">
+                            <i class="bi bi-person me-1"></i> Username
+                        </label>
+                        <input type="text" class="form-control form-control-lg" id="username"
+                               name="username" required autocomplete="username"
+                               placeholder="Enter your username">
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="form-label">
+                            <i class="bi bi-lock me-1"></i> Password
+                        </label>
+                        <div class="input-group">
+                            <input type="password" class="form-control form-control-lg" id="password"
+                                   name="password" required autocomplete="current-password"
+                                   placeholder="Enter your password">
+                            <button class="btn btn-outline-secondary" type="button"
+                                    onclick="togglePassword('password')" id="togglePasswordBtn">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg w-100 mb-3" id="loginBtn">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                    </button>
+                </form>
+
+                <div class="text-center mt-3">
+                    <p class="text-muted">
+                        Don't have an account?
+                        <a href="{{ url_for('register') }}" class="text-primary text-decoration-none fw-semibold">
+                            Create one
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function togglePassword(fieldId) {
+        const field = document.getElementById(fieldId);
+        const btn = document.getElementById('togglePasswordBtn');
+        if (field.type === 'password') {
+            field.type = 'text';
+            btn.innerHTML = '<i class="bi bi-eye-slash"></i>';
+        } else {
+            field.type = 'password';
+            btn.innerHTML = '<i class="bi bi-eye"></i>';
+        }
+    }
+</script>
+{% endblock %}

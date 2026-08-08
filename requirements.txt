@@ -1,0 +1,15 @@
+# AI Career Connect — Python Dependencies
+# ==========================================
+# WHY THIS FILE EXISTS:
+#     Lists every Python package this project needs.
+#     Run: pip install -r requirements.txt
+#     This ensures anyone cloning the project gets the same packages.
+
+flask                # Web framework — handles HTTP, routing, templates
+flask-sqlalchemy     # ORM — maps Python classes to database tables
+flask-login          # Authentication — manages user sessions (login/logout)
+python-dotenv        # Loads environment variables from .env file
+mistralai            # Mistral AI Python SDK — communicates with AI API
+werkzeug             # Password hashing (comes with Flask, listed for clarity)
+gunicorn             # WSGI HTTP Server for UNIX / Render deployment
+
